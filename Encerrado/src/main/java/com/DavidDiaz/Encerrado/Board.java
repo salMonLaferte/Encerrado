@@ -84,6 +84,10 @@ public class Board {
         return opositePlayer(currentTurn);
     }
 
+    /**
+     * Returns an array for the available moves for the current player, return null if theres no available moves
+     * @return
+     */
     public int[] availableMoves(){
         int count = 0;
         for(int i=0; i<5; i++){
@@ -104,12 +108,20 @@ public class Board {
         return moves;
     }
 
+    /**
+     * Clones the current board, makes the move in that clone, and the resulting board is returned
+     * @param from
+     * @return
+     */
     public Board makeBoardFromMove(int from){
         Board b = clone();
         b.makeMove(from);
         return b;
     }
 
+    /**
+     * Clones the board.
+     */
     public Board clone(){
         Player[] pos = positions.clone();
         return new Board(pos, currentTurn);
@@ -159,6 +171,9 @@ public class Board {
         return "Ninguno";
     }
 
+    /**
+     * Returns a string representation of the board.
+     */
     public String toString(){
         String s = "";
         for(int i=0; i<5; i++){

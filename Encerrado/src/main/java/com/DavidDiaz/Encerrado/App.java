@@ -87,7 +87,6 @@ public class App extends Application {
         configInfo = new Text();
         configInfo.setTranslateX(300);
         configInfo.setTranslateY(400);
-        configInfo.setText(getConfigInfo());
         anuncio = new Text();
         anuncio.setTranslateX(300);
         anuncio.setTranslateY(500);
@@ -103,8 +102,8 @@ public class App extends Application {
 
 
         setUpGame();
-        updateTokens();
-        updateTurnIndicator();
+        GameManager.updateVisualsAndCheckForWinner();
+        configInfo.setText(getConfigInfo());
         if(GameManager.playingAgainstIA && GameManager.board.currentTurn == GameManager.iaPlayer){
             PauseTransition p = new PauseTransition(Duration.millis(2000));
             p.play();
@@ -179,7 +178,7 @@ public class App extends Application {
             turnIndicator.setFill(Color.BLUE);
         }            
         else{
-            turnIndicator.setText("Turno actual: Rojo");
+            turnIndicator.setText("Turno actual: Jugador Rojo");
             turnIndicator.setFill(Color.RED);
         }
     }

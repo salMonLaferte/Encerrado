@@ -94,7 +94,10 @@ public class GameManager {
         }
     }
 
-
+    /**
+     * Gets the movement of the IA using minimax algorithm
+     * @return
+     */
     public static int getIAMinimaxMove(){
         Tree moves = new Tree(board, 10);
         int minimaxMove = moves.minimax(10);
