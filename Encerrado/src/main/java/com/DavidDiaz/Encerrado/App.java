@@ -26,6 +26,7 @@ public class App extends Application {
     static Circle[] circles;
     static Text turnIndicator;
     static Text configInfo;
+    static Text anuncio;
 
     public static void main(String args[]){
         launch();
@@ -78,12 +79,15 @@ public class App extends Application {
         });
 
         turnIndicator = new Text();
-        turnIndicator.setTranslateX(30);
+        turnIndicator.setTranslateX(300);
         turnIndicator.setTranslateY(30);
         configInfo = new Text();
         configInfo.setTranslateX(300);
         configInfo.setTranslateY(400);
         configInfo.setText(getConfigInfo());
+        anuncio = new Text();
+        anuncio.setTranslateX(300);
+        anuncio.setTranslateY(500);
 
         root.getChildren().add(imageView);
         for(int i=0; i<5; i++){
@@ -91,12 +95,13 @@ public class App extends Application {
         }
         root.getChildren().add(turnIndicator);
         root.getChildren().add(configInfo);
+        root.getChildren().add(anuncio);
         s.show();
 
 
         updateTokens();
 
-        //GameManager.mainLoop();
+
     }
 
 
@@ -115,10 +120,6 @@ public class App extends Application {
         Optional<String> result = textInputDialog.showAndWait();
         if(result.isPresent() ){
             String resultMayus = result.get().toUpperCase();
-            if(resultMayus.equals("TERMINAR")){//Ends current game if user introduces TERMINAR
-                terminar();
-                return "";
-            }
             return resultMayus;
         }
         else 
@@ -130,20 +131,8 @@ public class App extends Application {
      * @param title
      * @param message
      */
-    public static void showMessageToUser(String title, String message){
-        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-    }
-
-    /**
-     * Imprime los resultados, el ganador y cierra la aplicacion
-     */
-    public static void terminar(){
-        showMessageToUser("Partida finalizada", "");
-        System.exit(0);
+    public static void showMessageToUser(String message){
+        anuncio.setText(message);
     }
 
     /**Updates colors of tokens in the board */
@@ -167,7 +156,7 @@ public class App extends Application {
             turnIndicator.setFill(Color.BLUE);
         }            
         else{
-            turnIndicator.setText("Rojo");
+            turnIndicator.setText("Turno actual: Rojo");
             turnIndicator.setFill(Color.RED);
         }
     }

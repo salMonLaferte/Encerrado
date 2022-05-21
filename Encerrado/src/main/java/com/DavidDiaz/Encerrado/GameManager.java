@@ -1,7 +1,7 @@
 package com.DavidDiaz.Encerrado;
 
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
+
 
 import com.DavidDiaz.Encerrado.Board.Player;
 
@@ -14,12 +14,6 @@ public class GameManager {
     public static boolean playingAgainstIA = true;
     public static Player iaPlayer = Player.Red;
  
-
-    public static void mainLoop(){
-        while(true){
-
-        }
-    }
 
     public static MyPair<Integer, Integer> parseInput(String input){
         String[] numbers = input.split(":");
@@ -68,7 +62,7 @@ public class GameManager {
         App.updateTurnIndicator();
         Player winner = board.checkGAmeOver();
         if(winner != Player.None){
-            App.showMessageToUser("Se termino el juego", "Ganó: " + winner);
+            App.showMessageToUser("Se termino el juego. Ganó: " + Board.playerToStr(winner));
         }
     }
 
