@@ -43,6 +43,10 @@ public class GameManager {
         }
         App.updateTokens();
         App.updateTurnIndicator();
+        Player winner = board.checkGAmeOver();
+        if(winner != Player.None){
+            App.showMessageToUser("Se termino el juego", "Ganó: " + winner);
+        }
     }
 
 }

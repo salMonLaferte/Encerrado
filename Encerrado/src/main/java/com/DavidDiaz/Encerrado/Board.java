@@ -2,7 +2,7 @@ package com.DavidDiaz.Encerrado;
 
 class Board {
     Player[] positions;
-    public static Player currentTurn = Player.Blue;
+    public Player currentTurn = Player.Blue;
 
     public enum Player{
         Blue, Red, None
@@ -71,15 +71,37 @@ class Board {
         return -1;
     }
 
+    /**
+     * Checks if the game is over and returns its winner, returns none if game is not over
+     * @return
+     */
+    public Player checkGAmeOver(){
+        for(int i=0; i<5; i++){
+            if( positions[i] == currentTurn && isValid(i)){
+                return Player.None;
+            }
+        }
+        return opositePlayer(currentTurn);
+    }
+
+
+    /**
+     * Returns the other player that is not p, returns none if player.none is passed
+     * @param p
+     * @return
+     */
+    static Player opositePlayer(Player p){
+        if(p == Player.Blue)
+            return Player.Red;
+        if(p == Player.Red)
+            return Player.Blue;
+        return Player.None;
+    }
 
     /**
      * Change the current turn to the other player
      */
-    public static void changeTurn(){
-        if(currentTurn == Player.Red)
-            currentTurn = Player.Blue;
-        else if(currentTurn == Player.Blue)
-            currentTurn = Player.Red;
+    public void changeTurn(){
+        currentTurn = opositePlayer(currentTurn);
     }
-
 }
