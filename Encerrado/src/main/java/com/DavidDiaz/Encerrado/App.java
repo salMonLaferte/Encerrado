@@ -35,7 +35,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        setUpGame();
+        
         root = new Group();
         scene = new Scene(root, Color.BLACK);
         Stage s = new Stage();
@@ -100,8 +100,9 @@ public class App extends Application {
         s.show();
 
 
-
+        setUpGame();
         updateTokens();
+        updateTurnIndicator();
 
 
     }
@@ -112,6 +113,7 @@ public class App extends Application {
      */
     public static void showAlertToUser(String title, String message){
         Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.setResizable(true);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -127,6 +129,7 @@ public class App extends Application {
      */
     public static String askForUserInput(String question,String formatDescription, String defaultValue){
         TextInputDialog textInputDialog = new TextInputDialog(defaultValue);
+        textInputDialog.setResizable(true);
         textInputDialog.setHeaderText(question);
         textInputDialog.setContentText(formatDescription);
         Optional<String> result = textInputDialog.showAndWait();
@@ -194,9 +197,9 @@ public class App extends Application {
     public static void setUpGame(){
         //Set if player plays against IA
         String playAgainstIA = "";
-        while( !playAgainstIA.equals("IA") || !playAgainstIA.equals("LOCAL")){
+        while( !playAgainstIA.equals("IA") && !playAgainstIA.equals("LOCAL")){
             playAgainstIA = askForUserInput("¿Quieres jugar contra la IA o localmente contra otro jugador? ", "Escribe: IA o LOCAL", "IA");
-            if( !playAgainstIA.equals("IA") || !playAgainstIA.equals("LOCAL")){
+            if( !playAgainstIA.equals("IA") && !playAgainstIA.equals("LOCAL")){
                 showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
             }
         }
@@ -209,9 +212,9 @@ public class App extends Application {
         //Select IA color
         if(GameManager.playingAgainstIA){
             String iaColor = "";
-            while( !iaColor.equals("RED") || !iaColor.equals("BLUE")){
+            while( !iaColor.equals("RED") && !iaColor.equals("BLUE")){
                 iaColor = askForUserInput("Elige el color de la IA ", "Escribe: ROJO o AZUL", "ROJO");
-                if( !iaColor.equals("IA") || !iaColor.equals("LOCAL")){
+                if( !iaColor.equals("IA") && !iaColor.equals("LOCAL")){
                     showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
                 }
             }
@@ -225,9 +228,9 @@ public class App extends Application {
 
         //Select starter player
         String starterPlayer = "";
-        while( !starterPlayer.equals("AZUL") || !starterPlayer.equals("ROJO")){
+        while( !starterPlayer.equals("AZUL") && !starterPlayer.equals("ROJO")){
             starterPlayer = askForUserInput("¿Que jugador quieres que empiece? ", "Escribe: ROJO o AZUL", "AZUL");
-            if( !starterPlayer.equals("AZUL") || !starterPlayer.equals("ROJO")){
+            if( !starterPlayer.equals("AZUL") && !starterPlayer.equals("ROJO")){
                 showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
             }
         }
