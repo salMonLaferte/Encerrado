@@ -134,13 +134,14 @@ public class App extends Application {
     }
 
     /**
-     * Imprime los resultadps, el ganador y cierra la aplicacion
+     * Imprime los resultados, el ganador y cierra la aplicacion
      */
     public static void terminar(){
         showMessageToUser("Partida finalizada", "");
         System.exit(0);
     }
 
+    /**Updates colors of tokesn in the board */
     public static void updateTokens(){
         for(int i=0; i<5; i++){
             if(GameManager.board.positions[i] == Player.Red)
@@ -153,7 +154,7 @@ public class App extends Application {
     }
 
     public static void updateTurnIndicator(){
-        if(GameManager.currentTurn == Player.Blue)
+        if(GameManager.board.currentTurn == Player.Blue)
             turnIndicator.setText("Azul");
         else
             turnIndicator.setText("Rojo");

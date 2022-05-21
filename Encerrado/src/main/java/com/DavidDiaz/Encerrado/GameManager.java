@@ -4,8 +4,8 @@ import com.DavidDiaz.Encerrado.Board.Player;
 
 public class GameManager {
 
-    public static Board board = new Board();
-    public static Player currentTurn = Player.Blue;
+    public static Board board = new Board(Player.Blue);
+
 
     public static void mainLoop(){
         /*while(true){
@@ -33,18 +33,14 @@ public class GameManager {
         return result;
     }
 
-    public static void changeTurn(){
-        if(currentTurn == Player.Red)
-            currentTurn = Player.Blue;
-        else if(currentTurn == Player.Blue)
-            currentTurn = Player.Red;
-    }
-
+    /**
+     * Trys to make a move from the position from to the empty position, if is a valid move updates the visuals
+     * @param from
+     */
     public static void makeMove(int from){
         if(!board.makeMove(from)){
             return;
         }
-        changeTurn();
         App.updateTokens();
         App.updateTurnIndicator();
     }
