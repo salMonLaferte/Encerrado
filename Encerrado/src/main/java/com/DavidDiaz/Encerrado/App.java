@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -95,10 +96,21 @@ public class App extends Application {
         for(int i=0; i<5; i++){
             root.getChildren().add(circles[i]); 
         }
+
+        Button changeIAMode = new Button("Cambiar modo de la IA");
+        changeIAMode.setOnAction(e->{
+            GameManager.iaMiniMaxMode = !GameManager.iaMiniMaxMode;
+            updateConfigInfo();
+        });
+        changeIAMode.setTranslateX(300);
+        changeIAMode.setTranslateY(550);
+
+        root.getChildren().add(changeIAMode);
         root.getChildren().add(turnIndicator);
         root.getChildren().add(configInfo);
         root.getChildren().add(anuncio);
         s.show();
+
 
 
         setUpGame();
@@ -201,6 +213,10 @@ public class App extends Application {
         else
             info+= " Azar";
         return info;
+    }
+
+    public static void updateConfigInfo(){
+        configInfo.setText(getConfigInfo());
     }
 
     /**
