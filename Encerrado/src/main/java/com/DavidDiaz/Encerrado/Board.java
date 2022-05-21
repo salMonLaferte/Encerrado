@@ -84,7 +84,7 @@ public class Board {
         return opositePlayer(currentTurn);
     }
 
-    public Board[] availableMoves(){
+    public int[] availableMoves(){
         int count = 0;
         for(int i=0; i<5; i++){
             if( positions[i] == currentTurn && isValid(i)){
@@ -93,11 +93,11 @@ public class Board {
         }
         if(count == 0)
             return null;
-        Board[] moves = new Board[count];
+        int[] moves = new int[count];
         int index = 0;
         for(int i=0; i<5; i++){
             if( positions[i] == currentTurn && isValid(i)){
-                moves[index] = makeBoardFromMove(i); 
+                moves[index] = i;
                 index++;
             }
         }
@@ -106,7 +106,7 @@ public class Board {
 
     public Board makeBoardFromMove(int from){
         Board b = clone();
-        makeMove(from);
+        b.makeMove(from);
         return b;
     }
 
@@ -157,5 +157,13 @@ public class Board {
             return "Azul";
         }
         return "Ninguno";
+    }
+
+    public String toString(){
+        String s = "";
+        for(int i=0; i<5; i++){
+            s+= Board.playerToStr(positions[i]) + " | ";
+        }
+        return s;
     }
 }

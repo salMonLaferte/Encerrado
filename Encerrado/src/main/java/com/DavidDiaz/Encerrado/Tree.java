@@ -17,46 +17,75 @@ public class Tree {
             left = null;
             right = null;
         }
+
+        @Override
+        public String toString() {
+            String l= "";
+            String r = "";
+            if(left != null)
+                l = left.toString();
+            if(right != null)
+                r = right.toString();
+            return   l + r + root.value.toString();
+        }
     }
 
     public Tree( Board board, int depth){
-        root = buildTree(board, depth);
+        root = buildTree(board.clone(), depth+1, -1);
+        //System.out.println(this.root);
     }
 
-    public Node buildTree(Board board, int depth){
+    Node buildTree(Board board, int depth, int lastMove){
         if(depth == 0)
             return null;
-        Node root = new Node(board);
-        Board[] posibleMoves = board.availableMoves();
+        Node r = new Node(board);
+        r.move = lastMove;
+        int[] posibleMoves = board.availableMoves();
         if(posibleMoves == null)
-            return root;
+            return r;
         if(posibleMoves.length > 0){
-            root.left = buildTree(posibleMoves[0], depth-1);
+            r.left = buildTree(board.makeBoardFromMove(posibleMoves[0]), depth-1, posibleMoves[0]);
             if(posibleMoves.length > 1)
-                root.right =buildTree(posibleMoves[1], depth-1);
+                r.right =buildTree(board.makeBoardFromMove(posibleMoves[1]), depth-1, posibleMoves[1]);
         }
-        return root;
+        return r;
     }
 
     public int minimax(int depth){
         boolean maximizingPlayer = true;
         if(root.value.currentTurn == Player.Red)
             maximizingPlayer = false;
-        int k =minimax(root, 10, maximizingPlayer);
-        if(maximizingPlayer){
-            if( root.left != null && root.left.maxVal == k){
-                return root.left.move;  
-            }
-            else
+        int k = minimax(root, depth, maximizingPlayer);
+        System.out.println(k);
+        if(root.left == null || root.right ==null){
+            if(root.left == null && root.right ==null)
+                return 0;
+            if(root.left == null)
                 return root.right.move;
+            else
+                return root.left.move;
+        }
+        if(maximizingPlayer){
+            if( root.left != null && root.right != null){
+                if(root.left.minVal > root.right.minVal){
+                    return root.left.move;
+                } //tomar el mas grande de los valores mas chicos  
+                else{
+                    return root.right.move;
+                }
+            }
         }
         else{
-            if( root.left != null && root.left.minVal == k){
-                return root.left.move;  
+            if( root.left != null && root.right != null){
+                if(root.left.maxVal < root.right.maxVal){
+                    return root.left.move;
+                } //tomar el mas chico de los valores mas grandes  
+                else{
+                    return root.right.move;
+                }
             }
-            else
-                return root.right.move;
         }
+        return 0;
     } 
 
     private int minimax(Node pos, int depth, boolean maximizingPlayer){
@@ -64,24 +93,23 @@ public class Tree {
             return pos.value.evaluate();
         }
         if(maximizingPlayer){
-            int lval = Integer.MIN_VALUE;
-            int rval = Integer.MIN_VALUE;
+            int val = Integer.MIN_VALUE;
             if( pos.left != null)
-                lval = minimax(pos.left, depth -1, false);
+                val = Math.max(minimax(pos.left, depth -1, false), val);
             if( pos. right != null)
-                rval = minimax(pos.right, depth-1 , false); 
-            pos.maxVal = Math.max(lval, rval);
+                val = Math.max(minimax(pos.right, depth-1 , false), val) ; 
+            pos.maxVal = val;
             return pos.maxVal;
         }
         else{
-            int lval = Integer.MAX_VALUE;
-            int rval = Integer.MAX_VALUE;
+            int val = Integer.MAX_VALUE;
             if(pos.left != null)
-                lval = minimax(pos.left, depth -1, true);
+                val = Math.min(minimax(pos.left, depth -1, true), val);
             if(pos.right != null)
-                rval = minimax(pos.right, depth-1 , true); 
-            pos.minVal = Math.min(lval, rval);
+                val = Math.min(minimax(pos.right, depth-1 , true), val); 
+            pos.minVal = val;
             return pos.minVal;
         }
     }
+
 }
