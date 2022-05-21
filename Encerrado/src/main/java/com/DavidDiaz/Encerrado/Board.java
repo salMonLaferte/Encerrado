@@ -1,6 +1,6 @@
 package com.DavidDiaz.Encerrado;
 
-class Board {
+public class Board {
     Player[] positions;
     public Player currentTurn = Player.Blue;
 
@@ -84,6 +84,10 @@ class Board {
         return opositePlayer(currentTurn);
     }
 
+    public Board[] availableMoves(){
+        return null;
+    }
+
 
     /**
      * Returns the other player that is not p, returns none if player.none is passed
@@ -103,6 +107,17 @@ class Board {
      */
     public void changeTurn(){
         currentTurn = opositePlayer(currentTurn);
+    }
+
+    public int evaluate(){
+        Player winner = checkGAmeOver();
+        if( winner == Player.Red){
+            return -1;
+        }
+        if( winner == Player.Blue){
+            return 1;
+        }
+        return 0;
     }
 
     /**
