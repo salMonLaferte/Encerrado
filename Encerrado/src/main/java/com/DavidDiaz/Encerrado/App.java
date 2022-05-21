@@ -103,8 +103,8 @@ public class App extends Application {
         setUpGame();
         updateTokens();
         updateTurnIndicator();
-
-
+        if(GameManager.playingAgainstIA && GameManager.board.currentTurn == GameManager.iaPlayer)
+            GameManager.makeIAMove();
     }
 
     /**public static String askForUserInput(String question,String formatDescription, S
