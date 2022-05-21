@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.DavidDiaz.Encerrado.Board.Player;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -16,6 +17,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 
 public class App extends Application {
@@ -103,8 +105,14 @@ public class App extends Application {
         setUpGame();
         updateTokens();
         updateTurnIndicator();
-        if(GameManager.playingAgainstIA && GameManager.board.currentTurn == GameManager.iaPlayer)
-            GameManager.makeIAMove();
+        if(GameManager.playingAgainstIA && GameManager.board.currentTurn == GameManager.iaPlayer){
+            PauseTransition p = new PauseTransition(Duration.millis(2000));
+            p.play();
+            p.setOnFinished(e->{
+                GameManager.makeIAMove();
+            });
+        }
+           
     }
 
     /**public static String askForUserInput(String question,String formatDescription, S
