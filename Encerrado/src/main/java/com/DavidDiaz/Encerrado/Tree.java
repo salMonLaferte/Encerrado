@@ -56,7 +56,7 @@ public class Tree {
         if(root.value.currentTurn == Player.Red)
             maximizingPlayer = false;
         int k = minimax(root, depth, maximizingPlayer);
-        System.out.println(k);
+        //System.out.println(k);
         if(root.left == null || root.right ==null){
             if(root.left == null && root.right ==null)
                 return 0;

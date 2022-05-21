@@ -147,6 +147,10 @@ public class Board {
         currentTurn = opositePlayer(currentTurn);
     }
 
+    /**
+     * Function that evaluates the board for the minimax algorithm
+     * @return
+     */
     public int evaluate(){
         Player winner = checkGAmeOver();
         if( winner == Player.Red){

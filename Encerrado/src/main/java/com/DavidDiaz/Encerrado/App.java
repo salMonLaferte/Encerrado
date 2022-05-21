@@ -191,10 +191,15 @@ public class App extends Application {
         String info = "";
         if(GameManager.playingAgainstIA){
             info += "Jugando contra IA \n";
-            info += "Color de la IA: " + Board.playerToStr(GameManager.iaPlayer);
+            info += "Color de la IA: " + Board.playerToStr(GameManager.iaPlayer) + "\n";
         }    
         else
-            info += "Jugando localmente";
+            info += "Jugando localmente \n";
+        info += "Tipo de IA: ";
+        if(GameManager.iaMiniMaxMode)
+            info+= " Minimax";
+        else
+            info+= " Azar";
         return info;
     }
 
@@ -231,6 +236,19 @@ public class App extends Application {
             }else{
                 GameManager.iaPlayer = Player.Blue;
             }
+
+            String iaMode = "";
+            while( !iaMode.equals("AZAR") && !iaMode.equals("MINIMAX")){
+                iaMode = askForUserInput("Elige el tipo de IA ", "Escribe: AZAR o  MINIMAX", "MINIMAX");
+                if( !iaMode.equals("AZAR") && !iaMode.equals("MINIMAX")){
+                    showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
+                }
+            }
+            if(iaMode.equals("MINIMAX")){
+                GameManager.iaMiniMaxMode = true;
+            }
+            else
+                GameManager.iaMiniMaxMode = false;
         }
 
         //Select starter player
