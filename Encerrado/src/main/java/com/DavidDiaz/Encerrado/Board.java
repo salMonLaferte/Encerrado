@@ -85,9 +85,35 @@ public class Board {
     }
 
     public Board[] availableMoves(){
-        return null;
+        int count = 0;
+        for(int i=0; i<5; i++){
+            if( positions[i] == currentTurn && isValid(i)){
+                count++;
+            }
+        }
+        if(count == 0)
+            return null;
+        Board[] moves = new Board[count];
+        int index = 0;
+        for(int i=0; i<5; i++){
+            if( positions[i] == currentTurn && isValid(i)){
+                moves[index] = makeBoardFromMove(i); 
+                index++;
+            }
+        }
+        return moves;
     }
 
+    public Board makeBoardFromMove(int from){
+        Board b = clone();
+        makeMove(from);
+        return b;
+    }
+
+    public Board clone(){
+        Player[] pos = positions.clone();
+        return new Board(pos, currentTurn);
+    }
 
     /**
      * Returns the other player that is not p, returns none if player.none is passed
