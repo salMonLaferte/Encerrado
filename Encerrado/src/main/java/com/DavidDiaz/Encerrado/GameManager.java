@@ -13,7 +13,7 @@ public class GameManager {
     public static Board board = new Board(Player.Blue);
     public static boolean playingAgainstIA = true;
     public static Player iaPlayer = Player.Red;
- 
+    public static boolean iaMiniMaxMode = true;
 
     public static MyPair<Integer, Integer> parseInput(String input){
         String[] numbers = input.split(":");
@@ -49,7 +49,11 @@ public class GameManager {
      * Makes the ia move
      */
     public static void makeIAMove(){
-        int move = getIARAndomMove();
+        int move;
+        if(iaMiniMaxMode)
+            move = getIAMinimaxMove();
+        else
+            move = getIARandomMove();
         board.makeMove(move);
         updateVisualsAndCheckForWinner();
     }
@@ -70,7 +74,7 @@ public class GameManager {
      * Gets a Random move for the IA player.
      * @return
      */
-    public static int getIARAndomMove(){
+    public static int getIARandomMove(){
         int[] moves = new int[2];
         moves[0] = -1;
         moves[1] = -1;
@@ -88,6 +92,13 @@ public class GameManager {
         else{
             return moves[0];
         }
+    }
+
+
+    public static int getIAMinimaxMove(){
+        Tree moves = new Tree(board, 10);
+        int minimaxMove = moves.minimax(10);
+        return minimaxMove;
     }
 
 }
