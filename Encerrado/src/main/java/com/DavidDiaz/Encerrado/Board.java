@@ -104,4 +104,17 @@ class Board {
     public void changeTurn(){
         currentTurn = opositePlayer(currentTurn);
     }
+
+    /**
+     * Regresa una cadena de caracateres con el nombre del jugador
+    */
+    public static String playerToStr(Player p){
+        if(p == Player.Red){
+            return "Rojo";
+        }
+        if(p == Player.Blue){
+            return "Azul";
+        }
+        return "Ninguno";
+    }
 }

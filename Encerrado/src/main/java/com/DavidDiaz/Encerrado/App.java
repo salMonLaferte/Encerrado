@@ -25,6 +25,7 @@ public class App extends Application {
     static Stage mainWindow;
     static Circle[] circles;
     static Text turnIndicator;
+    static Text configInfo;
 
     public static void main(String args[]){
         launch();
@@ -79,13 +80,17 @@ public class App extends Application {
         turnIndicator = new Text();
         turnIndicator.setTranslateX(30);
         turnIndicator.setTranslateY(30);
+        configInfo = new Text();
+        configInfo.setTranslateX(300);
+        configInfo.setTranslateY(400);
+        configInfo.setText(getConfigInfo());
 
-        
         root.getChildren().add(imageView);
         for(int i=0; i<5; i++){
             root.getChildren().add(circles[i]); 
         }
         root.getChildren().add(turnIndicator);
+        root.getChildren().add(configInfo);
         s.show();
 
 
@@ -141,7 +146,7 @@ public class App extends Application {
         System.exit(0);
     }
 
-    /**Updates colors of tokesn in the board */
+    /**Updates colors of tokens in the board */
     public static void updateTokens(){
         for(int i=0; i<5; i++){
             if(GameManager.board.positions[i] == Player.Red)
@@ -153,11 +158,29 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Updates turn indicator
+     */
     public static void updateTurnIndicator(){
-        if(GameManager.board.currentTurn == Player.Blue)
-            turnIndicator.setText("Azul");
-        else
+        if(GameManager.board.currentTurn == Player.Blue){
+            turnIndicator.setText("Turno actual: Jugador azul");
+            turnIndicator.setFill(Color.BLUE);
+        }            
+        else{
             turnIndicator.setText("Rojo");
+            turnIndicator.setFill(Color.RED);
+        }
+    }
+
+    public static String getConfigInfo(){
+        String info = "";
+        if(GameManager.playingAgainstIA){
+            info += "Jugando contra IA \n";
+            info += "Color de la IA: " + Board.playerToStr(GameManager.iaPlayer);
+        }    
+        else
+            info += "Jugando localmente";
+        return info;
     }
     
 }
