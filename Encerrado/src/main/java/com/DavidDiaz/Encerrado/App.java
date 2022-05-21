@@ -35,6 +35,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        setUpGame();
         root = new Group();
         scene = new Scene(root, Color.BLACK);
         Stage s = new Stage();
@@ -99,12 +100,23 @@ public class App extends Application {
         s.show();
 
 
+
         updateTokens();
 
 
     }
 
-
+    /**public static String askForUserInput(String question,String formatDescription, S
+     * @param title
+     * @param message
+     */
+    public static void showAlertToUser(String title, String message){
+        Alert alert = new Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
     /**
      * Ask for user input
@@ -161,6 +173,10 @@ public class App extends Application {
         }
     }
 
+    /**
+     * Returns a string with the game configuration
+     * @return
+     */
     public static String getConfigInfo(){
         String info = "";
         if(GameManager.playingAgainstIA){
@@ -170,6 +186,104 @@ public class App extends Application {
         else
             info += "Jugando localmente";
         return info;
+    }
+
+    /**
+     * Set up for the game
+     */
+    public static void setUpGame(){
+        //Set if player plays against IA
+        String playAgainstIA = "";
+        while( !playAgainstIA.equals("IA") || !playAgainstIA.equals("LOCAL")){
+            playAgainstIA = askForUserInput("¿Quieres jugar contra la IA o localmente contra otro jugador? ", "Escribe: IA o LOCAL", "IA");
+            if( !playAgainstIA.equals("IA") || !playAgainstIA.equals("LOCAL")){
+                showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
+            }
+        }
+        if(playAgainstIA.equals("IA")){
+            GameManager.playingAgainstIA = true;
+        }else{
+            GameManager.playingAgainstIA = false;
+        }
+
+        //Select IA color
+        if(GameManager.playingAgainstIA){
+            String iaColor = "";
+            while( !iaColor.equals("RED") || !iaColor.equals("BLUE")){
+                iaColor = askForUserInput("Elige el color de la IA ", "Escribe: ROJO o AZUL", "ROJO");
+                if( !iaColor.equals("IA") || !iaColor.equals("LOCAL")){
+                    showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
+                }
+            }
+
+            if(iaColor.equals("ROJO")){
+                GameManager.iaPlayer = Player.Red;
+            }else{
+                GameManager.iaPlayer = Player.Blue;
+            }
+        }
+
+        //Select starter player
+        String starterPlayer = "";
+        while( !starterPlayer.equals("AZUL") || !starterPlayer.equals("ROJO")){
+            starterPlayer = askForUserInput("¿Que jugador quieres que empiece? ", "Escribe: ROJO o AZUL", "AZUL");
+            if( !starterPlayer.equals("AZUL") || !starterPlayer.equals("ROJO")){
+                showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
+            }
+        }
+        Player starter = Player.None;
+        if(starterPlayer.equals("ROJO")){
+            starter = Player.Red;
+        }else{
+            starter = Player.Blue;
+        }
+
+        //Select board configuration 
+        String tokenConfig = "";
+        boolean error = true;
+        boolean defaultConfig = false;
+        Player[] tokens = new Player[5];
+        while(error){
+            error = false;
+            tokenConfig = askForUserInput("Introduce la configuración de fichas, o escribe DEFAULT", 
+            "Favor de leer el archivo readme para más información de como introducir la configuración de fichas. ", "DEFAULT");
+            if(tokenConfig.equals("DEFAULT")){
+                defaultConfig = true;
+                continue;
+            }
+            String[] tokenPositions = tokenConfig.split(":");
+            if(tokenPositions.length != 5){
+                error = true;
+                continue;
+            }
+            int blue =0;
+            int red = 0;
+            int none =0;
+            for(int i=0; i<5; i++){
+                if(!tokenPositions[i].equals("A") && !tokenPositions[i].equals("B") && !tokenPositions[i].equals("N")){
+                    error = true;
+                    continue;
+                }
+                if(tokenPositions[i].equals("A")){
+                    tokens[i] = Player.Red;
+                    red++;
+                }
+                if(tokenPositions[i].equals("B")){
+                    tokens[i] = Player.Blue;
+                    blue++;
+                }
+                if(tokenPositions[i].equals("N")){
+                    tokens[i] = Player.None;
+                    none++;
+                }                
+            }
+            if( blue != 2 || red != 2 || none != 1)
+                error = true;
+        }
+        if(defaultConfig)
+            GameManager.board = new Board(starter);
+        else
+            GameManager.board = new Board(tokens, starter);
     }
     
 }
