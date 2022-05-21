@@ -212,9 +212,9 @@ public class App extends Application {
         //Select IA color
         if(GameManager.playingAgainstIA){
             String iaColor = "";
-            while( !iaColor.equals("RED") && !iaColor.equals("BLUE")){
+            while( !iaColor.equals("ROJO") && !iaColor.equals("AZUL")){
                 iaColor = askForUserInput("Elige el color de la IA ", "Escribe: ROJO o AZUL", "ROJO");
-                if( !iaColor.equals("IA") && !iaColor.equals("LOCAL")){
+                if( !iaColor.equals("ROJO") && !iaColor.equals("AZUL")){
                     showAlertToUser("FORMATO INVÁLIIDO", "Por favor introduce un formato válido");
                 }
             }
@@ -263,15 +263,15 @@ public class App extends Application {
             int red = 0;
             int none =0;
             for(int i=0; i<5; i++){
-                if(!tokenPositions[i].equals("A") && !tokenPositions[i].equals("B") && !tokenPositions[i].equals("N")){
+                if(!tokenPositions[i].equals("A") && !tokenPositions[i].equals("R") && !tokenPositions[i].equals("N")){
                     error = true;
                     continue;
                 }
-                if(tokenPositions[i].equals("A")){
+                if(tokenPositions[i].equals("R")){
                     tokens[i] = Player.Red;
                     red++;
                 }
-                if(tokenPositions[i].equals("B")){
+                if(tokenPositions[i].equals("A")){
                     tokens[i] = Player.Blue;
                     blue++;
                 }
