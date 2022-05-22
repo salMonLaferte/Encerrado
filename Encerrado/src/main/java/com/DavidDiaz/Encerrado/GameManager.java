@@ -7,23 +7,16 @@ import com.DavidDiaz.Encerrado.Board.Player;
 
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-
+/**
+ * Implements methods to perform actions in the game board and save configurations
+ * @author Jose David García Díaz
+ */
 public class GameManager {
 
     public static Board board = new Board(Player.Blue);
     public static boolean playingAgainstIA = true;
     public static Player iaPlayer = Player.Red;
     public static boolean iaMiniMaxMode = true;
-
-    public static MyPair<Integer, Integer> parseInput(String input){
-        String[] numbers = input.split(":");
-        if(numbers.length < 2)
-            return null;
-        int from = Integer.parseInt(numbers[0]);
-        int to = Integer.parseInt(numbers[1]);
-        MyPair<Integer, Integer> result = new MyPair<Integer, Integer>(from, to);
-        return result;
-    }
 
     /**
      * Trys to make a move from the position from to the empty position, if is a valid move updates the visuals and checks for winner

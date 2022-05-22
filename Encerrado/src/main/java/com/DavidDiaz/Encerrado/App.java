@@ -20,7 +20,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-
+/**
+ * Provides methods to show the game state trough a Window, and to evolve the game trought user input.
+ * @author Jose David Garcia Diaz
+ */
 public class App extends Application {
 
     static Scene scene;
@@ -46,6 +49,7 @@ public class App extends Application {
         Image board = new Image("Tablero.png");
         ImageView imageView = new ImageView(board);
         
+        //Set the tokens in the windows and the action for when each one is clicked
         circles = new Circle[5];
         for(int i=0; i<5; i++){
             circles[i] = new Circle();
@@ -82,21 +86,28 @@ public class App extends Application {
                 GameManager.makeMove(4);
         });
 
+        //Add turn indicator to window
         turnIndicator = new Text();
         turnIndicator.setTranslateX(300);
         turnIndicator.setTranslateY(30);
+
+        //Add the config info to window
         configInfo = new Text();
         configInfo.setTranslateX(300);
         configInfo.setTranslateY(400);
+
+        //Add text that will show who wins
         anuncio = new Text();
         anuncio.setTranslateX(300);
         anuncio.setTranslateY(500);
 
+        //Add tokens to the scene root
         root.getChildren().add(imageView);
         for(int i=0; i<5; i++){
             root.getChildren().add(circles[i]); 
         }
 
+        //Set the button that change IA MODE
         Button changeIAMode = new Button("Cambiar modo de la IA");
         changeIAMode.setOnAction(e->{
             GameManager.iaMiniMaxMode = !GameManager.iaMiniMaxMode;
@@ -105,17 +116,19 @@ public class App extends Application {
         changeIAMode.setTranslateX(300);
         changeIAMode.setTranslateY(550);
 
+        //Add everything to the scene root
         root.getChildren().add(changeIAMode);
         root.getChildren().add(turnIndicator);
         root.getChildren().add(configInfo);
         root.getChildren().add(anuncio);
         s.show();
 
-
-
+        //Set up the game, and update al visuals
         setUpGame();
         GameManager.updateVisualsAndCheckForWinner();
         configInfo.setText(getConfigInfo());
+
+        //If IA is the player that moves first make that move
         if(GameManager.playingAgainstIA && GameManager.board.currentTurn == GameManager.iaPlayer){
             PauseTransition p = new PauseTransition(Duration.millis(2000));
             p.play();
@@ -126,7 +139,7 @@ public class App extends Application {
            
     }
 
-    /**public static String askForUserInput(String question,String formatDescription, S
+    /**Shows an alert to the user
      * @param title
      * @param message
      */
@@ -219,6 +232,9 @@ public class App extends Application {
         return info;
     }
 
+    /**
+     * Update config info showing in the window
+     */
     public static void updateConfigInfo(){
         configInfo.setText(getConfigInfo());
     }

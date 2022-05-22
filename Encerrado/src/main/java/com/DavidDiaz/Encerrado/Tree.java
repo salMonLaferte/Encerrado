@@ -30,11 +30,23 @@ public class Tree {
         }
     }
 
+    /**
+     * Builds the tree with all the posible moves from the current board with the specified depth
+     * @param board
+     * @param depth
+     */
     public Tree( Board board, int depth){
         root = buildTree(board.clone(), depth+1, -1);
         //System.out.println(this.root);
     }
 
+    /**
+     * Builds the tree recursively
+     * @param board
+     * @param depth
+     * @param lastMove
+     * @return
+     */
     Node buildTree(Board board, int depth, int lastMove){
         if(depth == 0)
             return null;
@@ -51,6 +63,11 @@ public class Tree {
         return r;
     }
 
+    /**
+     * Using minimax algorithm selects what is the best move from the board on root
+     * @param depth
+     * @return
+     */
     public int minimax(int depth){
         boolean maximizingPlayer = true;
         if(root.value.currentTurn == Player.Red)
@@ -88,6 +105,13 @@ public class Tree {
         return 0;
     } 
 
+    /**
+     * Performs minimax algorithm
+     * @param pos
+     * @param depth
+     * @param maximizingPlayer
+     * @return
+     */
     private int minimax(Node pos, int depth, boolean maximizingPlayer){
         if(depth == 0 || pos.value.checkGAmeOver() != Player.None){
             return pos.value.evaluate();

@@ -1,5 +1,9 @@
 package com.DavidDiaz.Encerrado;
 
+/**
+ * Abstraction of the state of the board in the game
+ * @author José David García Díaz
+ */
 public class Board {
     Player[] positions;
     public Player currentTurn = Player.Blue;
