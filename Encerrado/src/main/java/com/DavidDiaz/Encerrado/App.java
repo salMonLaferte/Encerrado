@@ -151,13 +151,17 @@ public class App extends Application {
         textInputDialog.setResizable(true);
         textInputDialog.setHeaderText(question);
         textInputDialog.setContentText(formatDescription);
+        
         Optional<String> result = textInputDialog.showAndWait();
         if(result.isPresent() ){
             String resultMayus = result.get().toUpperCase();
             return resultMayus;
         }
-        else 
+        else {
+            System.exit(0);
             return "";
+        }
+            
     }
 
     /**
