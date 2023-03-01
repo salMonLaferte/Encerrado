@@ -1,2 +1,2 @@
-# Wizard
- Wizard board game implementation.
+# Encerrado
+Implementación del juego del encerrado, mas informacióne en el archivo README.pdf.
